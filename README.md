@@ -12,16 +12,15 @@
 
 * (optional) Install nvm/node.js/npm/http-serve
 
-```
-$>curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash                                                                                                      389
-$>source ~/.bashrc
-$>npm install -g http-server
+`$>curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash                                                                                                      389 `
 
-```
+`$>source ~/.bashrc`
+
+`$>npm install -g http-server`
 
 ### Running
 
-* Serve from local directory.
+Serve from a local directory with
 
 `$>http-server -p 8080`
 
