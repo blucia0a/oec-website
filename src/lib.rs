@@ -89,6 +89,7 @@ pub fn setup_stars() {
                  velocity: Coord{ x:vx,y:vy }, radius: r});
 
   }
+
 }
 
 #[wasm_bindgen]
