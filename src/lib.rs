@@ -1,4 +1,6 @@
+use std::f64;
 use wasm_bindgen::prelude::*;
+use wasm_bindgen::JsCast;
 
 extern crate rand;
 
@@ -117,5 +119,33 @@ pub fn update_stars() {
     s.velocity.y = newvy;
 
   } 
+
+}
+
+#[wasm_bindgen]
+pub fn draw_stars(){
+
+   let document = web_sys::window().unwrap().document().unwrap();
+   let canvas = document.get_element_by_id("starCanvas").unwrap();
+   let canvas: web_sys::HtmlCanvasElement = canvas
+        .dyn_into::<web_sys::HtmlCanvasElement>()
+        .map_err(|_| ())
+        .unwrap();
+
+    let context = canvas
+        .get_context("2d")
+        .unwrap()
+        .unwrap()
+        .dyn_into::<web_sys::CanvasRenderingContext2d>()
+        .unwrap();
+
+  
+  context.set_fill_style(&JsValue::from_str("#000000"));
+  context.fill_rect(0.0,0.0,1024.0,1024.0); 
+  let mut st = STARV.lock().unwrap();
+  for s in &mut *st {
+    context.set_fill_style(&JsValue::from_str("#FFFFFF"));
+    context.fill_rect(s.position.x as f64,s.position.y as f64,s.radius as f64,s.radius as f64); 
+  }
 
 }

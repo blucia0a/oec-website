@@ -9,42 +9,12 @@ const runWasm = async () => {
   /*Create the stars array and initialize randomly*/
   rustWasm.setup_stars();  
 
-  /*Helper to draw the stars to the canvas called starCanvas*/
-  const drawStarField = () => {
-    var c = document.getElementById("starCanvas");
-    var ctx = c.getContext("2d");
-
-    /*Get Star parameters from WASM*/  
-    const numStars = rustWasm.get_num_stars(); 
-
-    /*Update the stars' positions and velocities*/
-    rustWasm.update_stars();
-
-    /*Clear the screen to black*/ 
-    ctx.clearRect(0,0,c.height,c.width);
-    ctx.beginPath();
-    ctx.fillStyle = "#000000";
-    ctx.fillRect(0,0,c.height,c.width);
-
-    /*Draw all the stars*/
-    for(var i = 0; i < numStars; i++){
-   
-      /*Grab the bytes from the star data structure*/
-      var x = rustWasm.get_star_x(i);
-      var y = rustWasm.get_star_y(i);
-      var r = rustWasm.get_star_r(i);
-
-      /*Each star is a rectangle*/
-      ctx.fillStyle = "#FFFFFF";
-      ctx.fillRect(x, y, r, r);
-      ctx.stroke();
-    }
-  }; /*End of drawStarField()*/
-
   /*Call drawStarField and schedule it to be called 30 times per second*/
-  drawStarField();
+  //drawStarField();
+  rustWasm.draw_stars();
   setInterval(() => {
-    drawStarField();
+    rustWasm.update_stars();
+    rustWasm.draw_stars();
   }, 33); 
 
 };
