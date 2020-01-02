@@ -1,10 +1,10 @@
-import init from "./pkg/rustwasm_hello_world.js";
+import init from "./pkg/oec_website.js";
 
 /*WASM main function*/
 const runWasm = async () => {
 
   /*Initialize the WASM blob*/
-  const rustWasm = await init("./pkg/rustwasm_hello_world_bg.wasm");
+  const rustWasm = await init("./pkg/oec_website_bg.wasm");
 
   /*Create the stars array and initialize randomly*/
   rustWasm.setup_stars();  

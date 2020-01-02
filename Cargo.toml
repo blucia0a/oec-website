@@ -1,5 +1,5 @@
 [package]
-name = "rustwasm-hello-world"
+name = "oec-website"
 version = "0.1.0"
 authors = ["Brandon Lucia <blucia@gmail.com>"]
 edition = "2018"
