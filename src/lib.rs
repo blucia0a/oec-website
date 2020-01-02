@@ -32,7 +32,7 @@ pub fn get_num_stars() -> usize{
 
 #[wasm_bindgen]
 pub fn get_star_size() -> usize {
-  STAR_SZ
+  STAR_SZ * 4
 }
 
 #[wasm_bindgen]
@@ -136,17 +136,27 @@ pub fn setup_stars() {
 #[wasm_bindgen]
 pub fn update_stars() {
 
+  let mut rng = rand::thread_rng();
   for i in 0..NUM_STARS {
     let os = get_star(i);
     match os{
       Some(s) => { 
-                       put_star(i,&Star{ 
-                                    position: 
-                                     Coord{ x: s.position.x + s.velocity.x, 
-                                            y: s.position.y + s.velocity.y}, 
-                                    velocity: s.velocity, 
-                                    radius: s.radius}); 
-                 },
+        let mut newx = s.position.x + s.velocity.x;
+        let mut newy = s.position.y + s.velocity.y;
+        let mut newvx = s.velocity.x;
+        let mut newvy = s.velocity.y;
+        if newx > XMAX { 
+          newx = 0; 
+          newvx = rng.gen_range(1,VMAX);
+        }
+        if newy > YMAX { 
+          newy = 0; 
+          newvy = rng.gen_range(1,VMAX);
+        }
+        put_star(i,&Star{ position: Coord{ x: newx, y: newy },
+                          velocity: Coord{ x: newvx,y: newvy}, 
+                          radius: s.radius}); 
+      },
       None => (),
     }          
   } 
