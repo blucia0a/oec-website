@@ -1,11 +1,5 @@
 import init from "./pkg/rustwasm_hello_world.js";
 
-/* Utility funtion to convert 4 consecutive bytes in an array to 
-  a single 32-bit integer */
-function i8Atoi32(i,arr){
-  return arr[i + 3] << 24 | arr[i+2] << 16 | arr[i+1] << 8 | arr[i];
-}
-
 /*WASM main function*/
 const runWasm = async () => {
 
@@ -21,17 +15,11 @@ const runWasm = async () => {
     var ctx = c.getContext("2d");
 
     /*Get Star parameters from WASM*/  
-    const starsPtr = rustWasm.get_star_buf_ptr();
     const numStars = rustWasm.get_num_stars(); 
-    const starSize = rustWasm.get_star_size(); 
 
     /*Update the stars' positions and velocities*/
     rustWasm.update_stars();
 
-    /*Marshal the array of stars into JS world*/
-    const wasmMem = new Uint8Array(rustWasm.memory.buffer);
-    const starData = wasmMem.slice(starsPtr,starsPtr + (numStars * starSize * 4));
- 
     /*Clear the screen to black*/ 
     ctx.clearRect(0,0,c.height,c.width);
     ctx.beginPath();
@@ -39,12 +27,12 @@ const runWasm = async () => {
     ctx.fillRect(0,0,c.height,c.width);
 
     /*Draw all the stars*/
-    for(var i = 0; i < numStars * starSize; i += starSize){
+    for(var i = 0; i < numStars; i++){
    
       /*Grab the bytes from the star data structure*/
-      var x = i8Atoi32(i,starData);
-      var y = i8Atoi32(i+4,starData);
-      var r = i8Atoi32(i+16,starData);
+      var x = rustWasm.get_star_x(i);
+      var y = rustWasm.get_star_y(i);
+      var r = rustWasm.get_star_r(i);
 
       /*Each star is a rectangle*/
       ctx.fillStyle = "#FFFFFF";
